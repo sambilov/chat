@@ -3,7 +3,10 @@ var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 var config = require('./../webpack.config.js');
 
-var app = new (require('express'))();
+
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var port = 3000;
 
 var compiler = webpack(config);
@@ -16,7 +19,15 @@ app.get("/", function(req, res) {
     res.sendFile(indexPathArr.join('/') + '/index.html');
 });
 
-app.listen(port, function(error) {
+io.on('connection', function(socket) {
+    console.log('a user connected');
+    socket.emit
+    socket.on('disconnect', function() {
+        console.log('user disconnected');
+    });
+});
+
+http.listen(port, function(error) {
     if (error) {
         console.error(error)
     } else {

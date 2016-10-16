@@ -37,6 +37,8 @@ function updateMessages(messages, newMessage) {
 
 export default function userstate(state = initialState, action) {
     switch (action.type) {
+        case 'INITIAL_STATE':
+            return action.payload;
         case 'SEND_MESSAGE':
             return Object.assign({}, state, { messages: updateMessages(state.messages, action.payload) });
         default:
